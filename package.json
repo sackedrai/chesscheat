@@ -1,0 +1,22 @@
+{
+  "name": "chesscheat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sackedrai/chesscheat.git"
+  },
+  "author": "sackedrai",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sackedrai/chesscheat/issues"
+  },
+  "homepage": "https://github.com/sackedrai/chesscheat#readme",
+  "dependencies": {
+    "stockfish.wasm": "^0.10.0"
+  }
+}

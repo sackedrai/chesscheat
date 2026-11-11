@@ -1,0 +1,42 @@
+{
+  "manifest_version": 3,
+  "name": "Chesscheat",
+  "version": "2.3.0",
+  "icons": { "16": "icon.png", "48": "icon.png", "128": "icon.png" },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "chesscheatextension@gmail.com"
+    }
+  },
+  "description": "Always see the optimal move in any chess.com game. Only your moves, win estimate, fixed highlights, no copy",
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "ChessCheat - engine overlay",
+    "default_icon": "icon.png"
+  },
+  "permissions": ["storage", "tabs"],
+  "host_permissions": [
+    "https://www.chess.com/*",
+    "https://chess.com/*"
+  ],
+  "background": {
+    "scripts": ["scripts/background.js"]
+  },
+  "content_scripts": [
+    {
+      "js": ["scripts/main.js"],
+      "matches": [
+        "https://www.chess.com/*",
+        "https://chess.com/*"
+      ],
+      "run_at": "document_idle",
+      "all_frames": false
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["scripts/stockfish-worker.js"],
+      "matches": ["https://www.chess.com/*", "https://chess.com/*"]
+    }
+  ]
+}

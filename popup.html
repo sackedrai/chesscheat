@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChessCheat</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup">
+    <header class="popup-header">
+      <div class="brand">
+        <img src="icon.png" alt="icon" class="brand-icon">
+        <div>
+          <h1>ChessCheat</h1>
+          <span class="version">v2.3 • ChessCheat Engine</span>
+        </div>
+      </div>
+      <span id="pageBadge" class="badge badge-off">offline</span>
+    </header>
+
+    <div id="notChessWarn" class="warn hidden">
+      Открой <b>chess.com</b> → игра / анализ, чтобы активировать оверлей.
+    </div>
+
+    <section class="card status-card">
+      <div class="status-row">
+        <span class="dot" id="statusDot"></span>
+        <span id="statusText" class="status-text">Idle</span>
+        <span id="bestMoveBadge" class="move-badge">—</span>
+      </div>
+      <div class="eval-row">
+        <div class="eval-bar"><div id="evalFill" class="eval-fill"></div></div>
+        <span id="evalText" class="eval-text">0.00</span>
+      </div>
+      <div class="fen-preview" id="fenPreview" title="Текущий FEN">—</div>
+      <div class="row between" id="turnRow" style="margin-top:6px;padding:6px 8px;background:#1a1a1a;border:1px solid #2e2e2e;border-radius:8px;font-size:11px">
+        <span id="turnText">—</span>
+        <span id="turnBadge" class="badge" style="font-size:10px;padding:2px 8px">—</span>
+      </div>
+      <div id="winEstimate" style="margin-top:6px;padding:8px;background:rgba(129,182,76,0.12);border:1px solid #2a5a2e;border-radius:8px;font-size:11px;font-weight:700;text-align:center">—</div>
+    </section>
+
+    <section class="card">
+      <div class="row between">
+        <label class="label">Глубина анализа</label>
+        <span class="depth-value" id="depthValue">4</span>
+      </div>
+      <input type="range" id="depthSlider" min="2" max="6" value="4" step="1">
+      <div class="presets">
+        <button data-depth="2">Быстро 2</button>
+        <button data-depth="4" class="active">Баланс 4</button>
+        <button data-depth="6">Сильно 6</button>
+      </div>
+      <p class="hint">2–4 быстро, 6+ грузит CPU</p>
+    </section>
+
+    <section class="controls">
+      <button id="toggleBtn" class="btn btn-primary">
+        <span class="btn-icon">▶</span> Запустить
+      </button>
+      <label class="switch" style="justify-content:center;margin-top:8px">
+        <input type="checkbox" id="highlightToggle" checked>
+        <span>Подсветка ходов</span>
+      </label>
+    </section>
+
+    <section class="card theme-card">
+      <div class="row between" style="margin-bottom:8px">
+        <label class="label">Цветовая тема</label>
+        <span class="depth-value" id="themeBadge" style="background:#333;color:#fff;font-size:11px">dark</span>
+      </div>
+      <div class="theme-grid">
+        <button data-theme="dark" class="theme-btn active" title="Тёмная (по умолчанию)"><span class="theme-dot" style="background:#262421;border-color:#81b64c"></span> Dark</button>
+        <button data-theme="light" class="theme-btn" title="Светлая"><span class="theme-dot" style="background:#f5f5f0"></span> Light</button>
+        <button data-theme="midnight" class="theme-btn" title="Midnight"><span class="theme-dot" style="background:#0d1117"></span> Midnight</button>
+        <button data-theme="forest" class="theme-btn" title="Лес"><span class="theme-dot" style="background:#1b2a1b"></span> Forest</button>
+        <button data-theme="ocean" class="theme-btn" title="Океан"><span class="theme-dot" style="background:#0f1e2e"></span> Ocean</button>
+        <button data-theme="amoled" class="theme-btn" title="AMOLED чёрный"><span class="theme-dot" style="background:#000"></span> AMOLED</button>
+      </div>
+
+      <div class="settings-row">
+        <label>Акцент</label>
+        <div class="color-row">
+          <input type="color" id="accentPicker" value="#81b64c">
+          <span id="accentVal" class="mono">#81b64c</span>
+        </div>
+      </div>
+
+      <div class="settings-row">
+        <div class="row between"><label>Прозрачность</label><span id="opacityVal" class="mono">100%</span></div>
+        <input type="range" id="opacitySlider" min="40" max="100" value="100" step="5">
+      </div>
+
+      <div class="settings-row">
+        <div class="row between"><label>Ширина оверлея</label><span id="widthVal" class="mono">300px</span></div>
+        <input type="range" id="widthSlider" min="260" max="420" value="300" step="10">
+      </div>
+
+      <div class="settings-row">
+        <div class="row between"><label>Размер шрифта</label><span id="fontVal" class="mono">100%</span></div>
+        <input type="range" id="fontSlider" min="85" max="125" value="100" step="5">
+      </div>
+
+      <div class="grid2" style="margin-top:8px">
+        <label class="switch"><input type="checkbox" id="blurToggle" checked><span>Размытие</span></label>
+        <label class="switch"><input type="checkbox" id="compactToggle"><span>Компакт</span></label>
+      </div>
+
+      <div class="settings-row" style="margin-top:10px;border-top:1px solid #2e2e2e;padding-top:10px">
+        <label class="label" style="font-size:11px;opacity:0.8">Цвета подсветки ходов</label>
+        <div class="grid2" style="margin-top:6px">
+          <div>
+            <div class="row between" style="font-size:11px"><label>Откуда</label><span id="hlFromVal" class="mono">#81b64c</span></div>
+            <div class="color-row" style="margin-top:4px"><input type="color" id="hlFromPicker" value="#81b64c"><input type="range" id="hlFromOpacity" min="20" max="100" value="55" style="flex:1"></div>
+          </div>
+          <div>
+            <div class="row between" style="font-size:11px"><label>Куда</label><span id="hlToVal" class="mono">#f7c948</span></div>
+            <div class="color-row" style="margin-top:4px"><input type="color" id="hlToPicker" value="#f7c948"><input type="range" id="hlToOpacity" min="20" max="100" value="65" style="flex:1"></div>
+          </div>
+        </div>
+      </div>
+
+      <button id="resetThemeBtn" class="btn btn-ghost" style="margin-top:10px;font-size:11px;padding:6px">↺ Сбросить к дефолту</button>
+    </section>
+
+    <section class="card actions">
+      <button id="openOverlayBtn" class="btn btn-ghost">🎯 Показать оверлей на доске</button>
+    </section>
+
+    <footer class="popup-footer">
+      <span>Перетащи оверлей за шапку</span>
+      <a href="https://github.com/sackedrai/chesscheat" target="_blank">GitHub</a>
+    </footer>
+  </div>
+  <script src="scripts/popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+(() => {
+  'use strict';
+  if (window.__chessCheatInit) { console.log('[ChessCheat] already init'); return; }
+  window.__chessCheatInit = true;
+  console.log('[ChessCheat] minimal loaded', location.href);
+
+  function createOverlay() {
+    if (document.getElementById('cc-overlay')) return;
+    const st = document.createElement('style');
+    st.textContent = '#cc-overlay{position:fixed;top:80px;right:16px;width:280px;background:#262421;color:#fff;border:1px solid #3a3937;border-radius:12px;padding:12px;z-index:99999}#cc-toggle{width:100%;padding:10px;background:#81b64c;border:none;border-radius:8px;font-weight:800;cursor:pointer}';
+    document.head.appendChild(st);
+    const el = document.createElement('div');
+    el.id = 'cc-overlay';
+    el.innerHTML = '<div style="font-weight:800;margin-bottom:8px">♔ ChessCheat MINIMAL v1.8.1</div><button id="cc-toggle">▶ Запустить</button><div id="cc-status" style="margin-top:8px;font-size:11px;opacity:0.8">Idle</div>';
+    document.body.appendChild(el);
+    const btn = document.getElementById('cc-toggle');
+    btn.addEventListener('click', (e)=>{
+      e.preventDefault();
+      console.log('[ChessCheat] MINIMAL toggle click');
+      const s = document.getElementById('cc-status');
+      if (s) s.textContent = 'Клик ' + new Date().toLocaleTimeString();
+      btn.textContent = btn.textContent.includes('Запустить') ? '■ Остановить' : '▶ Запустить';
+      try { alert('Кнопка работает! Minimal OK'); } catch(e) {}
+    });
+    console.log('[ChessCheat] overlay created minimal');
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', createOverlay);
+  else createOverlay();
+
+  setInterval(()=>{ if(!document.getElementById('cc-overlay')) createOverlay(); }, 1500);
+
+  // popup messaging minimal
+  try {
+    if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.onMessage) {
+      chrome.runtime.onMessage.addListener((msg, sender, sendResponse)=>{
+        console.log('[ChessCheat] popup msg', msg);
+        if (msg.type === 'getStatus') { sendResponse({hackRunning:false, bestMove:null}); return true; }
+        if (msg.type === 'toggle') { const b=document.getElementById('cc-toggle'); if(b) b.click(); sendResponse({ok:true}); return true; }
+        if (msg.type === 'getTurn') { sendResponse({isMyTurn:true}); return true; }
+      });
+    }
+  } catch(e) { console.log('[ChessCheat] msg listener fail', e); }
+
+  console.log('[ChessCheat] minimal init done');
+})();
