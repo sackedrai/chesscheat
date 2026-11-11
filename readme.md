@@ -10,14 +10,18 @@ ChessCheat is a browser extension that shows the best move in chess.com games us
 
 The code is based on [Eugenenoble2005/chesscheat](https://github.com/Eugenenoble2005/chesscheat) (author: Eugenenoble2005). The chess engine is Stockfish.
 
-### What changed vs original
-
-- All developer mentions replaced with **sackedrai**
-- Repository links updated (readme, package.json, popup.html)
-
 ### Author
 
 **sackedrai**
+
+### Features
+
+- Shows the best move in any chess.com game using Stockfish
+- Win estimate and evaluation bar
+- Highlights source and destination squares
+- Adjustable analysis depth (2–6)
+- Multiple color themes (dark, light, midnight, forest, ocean, amoled)
+- Draggable overlay on the board
 
 ### Installation
 
@@ -43,14 +47,18 @@ This project is for learning purposes. I do not condone or encourage cheating in
 
 Исходный код взят из репозитория [Eugenenoble2005/chesscheat](https://github.com/Eugenenoble2005/chesscheat) (автор: Eugenenoble2005). Шахматный движок — Stockfish.
 
-### Что изменено относительно первоисточника
-
-- Все упоминания разработчика заменены на **sackedrai**
-- Ссылки на репозиторий обновлены (readme, package.json, popup.html)
-
 ### Автор
 
 **sackedrai**
+
+### Возможности
+
+- Показывает лучший ход в любой партии на chess.com через Stockfish
+- Оценка позиции и шкала оценки (win estimate)
+- Подсветка клеток «откуда» и «куда»
+- Настраиваемая глубина анализа (2–6)
+- Несколько цветовых тем (тёмная, светлая, полночь, лес, океан, AMOLED)
+- Оверлей с возможностью перетаскивания по доске
 
 ### Установка
 
